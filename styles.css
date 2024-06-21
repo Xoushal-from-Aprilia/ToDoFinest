@@ -14,6 +14,10 @@ body {
     background: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
 
 header {
@@ -160,4 +164,25 @@ button:hover {
     border: none;
     font-size: 20px;
     cursor: pointer;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px 0;
+    background: #f3f4f6;
+    border-top: 1px solid #ddd;
+}
+
+footer p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.developer-logo {
+    max-width: 100px;
+    margin-top: 10px;
 }
