@@ -8,10 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Gestione Clienti Settimanale</h1>
+        <header>
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1>Gestione Clienti Settimanale</h1>
+        </header>
         <div class="input-section">
             <input type="text" id="clientName" placeholder="Nome Cliente">
-            <button class="anagrafica-btn" onclick="showAnagraficaPopup()">Anagrafica</button>
             <select id="clientDay">
                 <option value="Lunedì">Lunedì</option>
                 <option value="Martedì">Martedì</option>
@@ -21,6 +23,7 @@
                 <option value="Sabato">Sabato</option>
                 <option value="Domenica">Domenica</option>
             </select>
+            <button class="anagrafica-btn" onclick="showAnagraficaPopup()">Anagrafica</button>
             <button onclick="addClient()">Aggiungi Cliente</button>
         </div>
         <div class="filter-section">
