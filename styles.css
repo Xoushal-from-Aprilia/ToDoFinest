@@ -18,7 +18,8 @@ body {
 
 h1 {
     text-align: center;
-    color: #4A90E2;
+    color: #6a1b9a;
+    margin-bottom: 20px;
 }
 
 .input-section, .filter-section {
@@ -37,16 +38,22 @@ input, select, button {
     outline: none;
 }
 
+input, select {
+    width: 200px;
+}
+
 button {
-    background: #4A90E2;
+    background: #6a1b9a;
     color: #fff;
     border: none;
     cursor: pointer;
     transition: background 0.3s;
+    padding: 10px 20px;
+    border-radius: 4px;
 }
 
 button:hover {
-    background: #357ABD;
+    background: #4a148c;
 }
 
 .client-list {
@@ -59,4 +66,31 @@ button:hover {
 }
 
 .client-list li {
-   ⬤
+    padding: 15px;
+    background: #f3e5f5;
+    margin: 10px 0;
+    border-left: 5px solid #6a1b9a;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.client-list li:hover {
+    transform: scale(1.02);
+}
+
+.client-list button {
+    background: #d32f2f;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.client-list button:hover {
+    background: #c62828;
+}
