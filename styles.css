@@ -1,0 +1,62 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f3f4f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #4A90E2;
+}
+
+.input-section, .filter-section {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+button {
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #357ABD;
+}
+
+.client-list {
+    margin-top: 20px;
+}
+
+.client-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.client-list li {
+   ⬤
