@@ -1,5 +1,9 @@
 // script.js
-let clients = [];
+let clients = JSON.parse(localStorage.getItem('clients')) || [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    displayClients(clients);
+});
 
 function addClient() {
     const name = document.getElementById('clientName').value;
@@ -12,12 +16,14 @@ function addClient() {
     }
 
     const client = {
+        id: Date.now(),
         name,
         details,
         day
     };
 
     clients.push(client);
+    localStorage.setItem('clients', JSON.stringify(clients));
     displayClients(clients);
     clearInputs();
 }
@@ -34,7 +40,8 @@ function displayClients(clientsToDisplay) {
 
     clientsToDisplay.forEach(client => {
         const li = document.createElement('li');
-        li.textContent = `${client.name} - ${client.details} (${client.day})`;
+        li.innerHTML = `${client.name} - ${client.details} (${client.day}) 
+                        <button onclick="removeClient(${client.id})">Rimuovi</button>`;
         clientList.appendChild(li);
     });
 }
@@ -48,4 +55,41 @@ function filterClients() {
     }
 
     displayClients(filteredClients);
+}
+
+function removeClient(id) {
+    clients = clients.filter(client => client.id !== id);
+    localStorage.setItem('clients', JSON.stringify(clients));
+    displayClients(clients);
+}
+
+function exportToWord() {
+    const filterDay = document.getElementById('filterDay').value;
+    let filteredClients = clients;
+
+    if (filterDay !== 'Tutti') {
+        filteredClients = clients.filter(client => client.day === filterDay);
+    }
+
+    const doc = new docx.Document({
+        sections: [
+            {
+                properties: {},
+                children: [
+                    new docx.Paragraph({
+                        text: `Clienti del giorno: ${filterDay}`,
+                        heading: docx.HeadingLevel.HEADING_1
+                    }),
+                    ...filteredClients.map(client => new docx.Paragraph(`${client.name} - ${client.details} (${client.day})`))
+                ],
+            },
+        ],
+    });
+
+    docx.Packer.toBlob(doc).then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'clienti.docx';
+        link.click();
+    });
 }
