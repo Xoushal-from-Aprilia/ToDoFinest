@@ -1,5 +1,6 @@
 // script.js
 let clients = JSON.parse(localStorage.getItem('clients')) || [];
+let currentClient = {};
 
 document.addEventListener('DOMContentLoaded', () => {
     displayClients(clients);
@@ -7,10 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function addClient() {
     const name = document.getElementById('clientName').value;
-    const details = document.getElementById('clientDetails').value;
     const day = document.getElementById('clientDay').value;
 
-    if (name === '' || details === '') {
+    if (name === '' || !currentClient.street || !currentClient.civic || !currentClient.location) {
         alert('Per favore, inserisci tutti i dati del cliente.');
         return;
     }
@@ -18,7 +18,9 @@ function addClient() {
     const client = {
         id: Date.now(),
         name,
-        details,
+        street: currentClient.street,
+        civic: currentClient.civic,
+        location: currentClient.location,
         day
     };
 
@@ -30,8 +32,7 @@ function addClient() {
 
 function clearInputs() {
     document.getElementById('clientName').value = '';
-    document.getElementById('clientDetails').value = '';
-    document.getElementById('clientDay').value = 'Lunedì';
+    currentClient = {};
 }
 
 function displayClients(clientsToDisplay) {
@@ -40,8 +41,10 @@ function displayClients(clientsToDisplay) {
 
     clientsToDisplay.forEach(client => {
         const li = document.createElement('li');
-        li.innerHTML = `${client.name} - ${client.details} (${client.day}) 
-                        <button onclick="removeClient(${client.id})">Rimuovi</button>`;
+        li.innerHTML = `${client.name} 
+                        <button onclick="removeClient(${client.id})">Rimuovi</button>
+                        <button class="map-btn" onclick="openInMaps('${client.street} ${client.civic}, ${client.location}')">🡪</button>`;
+        li.onclick = () => showClientDetails(client);
         clientList.appendChild(li);
     });
 }
@@ -80,7 +83,7 @@ function exportToWord() {
                         text: `Clienti del giorno: ${filterDay}`,
                         heading: docx.HeadingLevel.HEADING_1
                     }),
-                    ...filteredClients.map(client => new docx.Paragraph(`${client.name} - ${client.details} (${client.day})`))
+                    ...filteredClients.map(client => new docx.Paragraph(`${client.name} - ${client.street}, ${client.civic}, ${client.location} (${client.day})`))
                 ],
             },
         ],
@@ -92,4 +95,34 @@ function exportToWord() {
         link.download = 'clienti.docx';
         link.click();
     });
+}
+
+function showAnagraficaPopup() {
+    document.getElementById('anagraficaPopup').style.display = 'block';
+}
+
+function closeAnagraficaPopup() {
+    document.getElementById('anagraficaPopup').style.display = 'none';
+}
+
+function saveAnagrafica() {
+    currentClient.street = document.getElementById('clientStreet').value;
+    currentClient.civic = document.getElementById('clientCivic').value;
+    currentClient.location = document.getElementById('clientLocation').value;
+    closeAnagraficaPopup();
+}
+
+function showClientDetails(client) {
+    const detailsText = `${client.name}<br>Via: ${client.street}<br>Civico: ${client.civic}<br>Località: ${client.location}<br>Giorno: ${client.day}`;
+    document.getElementById('clientDetailsText').innerHTML = detailsText;
+    document.getElementById('detailsPopup').style.display = 'block';
+}
+
+function closeDetailsPopup() {
+    document.getElementById('detailsPopup').style.display = 'none';
+}
+
+function openInMaps(address) {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    window.open(url, '_blank');
 }
